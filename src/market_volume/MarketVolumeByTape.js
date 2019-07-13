@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import autoBind from "react-autobind";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import numeral from "numeral";
 
 class MarketVolumeByTape extends Component {
   constructor(props, context) {
@@ -52,8 +53,8 @@ class MarketVolumeByTape extends Component {
         followPointer: true,
         formatter: function() {
           return this.points.reduce(function(s, point) {
-            return s + "<br/>" + point.series.name + ": " + point.y / 1e9 + "b";
-          }, "<b>Year " + this.x + "</b>");
+            return `${s}<br/>${point.series.name}: ${numeral(point.y / 1e9).format("0,0")}b`;
+          }, `<b>Year ${this.x}</b>`);
         }
       },
       plotOptions: {
