@@ -1,12 +1,12 @@
 baseDir:"C:/Users/david/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/dhan/data/";
 
 system "cd ",baseDir,"cboe/daily_volume/";
-years:-11#2007+til 13;
+years:-12#2007+til 13;
 fnames: ":daily_volume_" ,/: (string years) ,\: ".csv";
 cboeDaily:raze 0:[("DSFFFFFFFFJJJJ"; enlist ",")] each `$fnames;
 cnames:`date`sym`tapeAShares`tapeBShares`tapeCShares`totalShares`tapeANotonal`tapeBNotional`tapeCNotional`totalNotional`tapeATradeCount`tapeBTradeCount`tapeCTradeCount`totalTradeCount;
 cboeDaily:cnames xcol cboeDaily;
-trfs:(`$"ADF (D)";`$"NASDAQ (DQ)";`$"NYSE (DN)";`$"TRF (D)";`$"FINRA / Nasdaq TRF Chicago (DB)";`$"FINRA / NYSE TRF (DN)";`$"FINRA / Nasdaq TRF Carteret (DQ)");
+trfs:(`$"ADF (D)";`$"NSX (DC)";`$"NASDAQ (DQ)";`$"Nasdaq (DQ)";`$"NYSE (DN)";`$"TRF (D)";`$"FINRA / Nasdaq TRF Chicago (DB)";`$"FINRA / NYSE TRF (DN)";`$"FINRA / Nasdaq TRF Carteret (DQ)");
 update sym:`$"NYSE" from `cboeDaily where sym=`$"NYSE (N)";
 update sym:`$"NYSE Arca" from `cboeDaily where sym=`$"NYSE Arca (P)";
 update sym:`$"NYSE National" from `cboeDaily where sym in (`$"NSX (C)";`$"NYSE National (C)");
@@ -17,10 +17,10 @@ update sym:`$"CBOE BYX" from `cboeDaily where sym in (`$"BATS BYX (Y)";`$"BYX Eq
 update sym:`$"CBOE BZX" from `cboeDaily where sym in (`$"BATS BZX (Z)";`$"BATS (Z)";`$"BZX Equities (Z)");
 update sym:`$"CBOE EDGA" from `cboeDaily where sym in (`$"EDGA (J)";`$"BATS EDGA (J)";`$"EDGA Equities (J)");
 update sym:`$"CBOE EDGX" from `cboeDaily where sym in (`$"EDGX (K)";`$"BATS EDGX (K)";`$"EDGX Equities (K)");
-update sym:`$"NASDAQ" from `cboeDaily where sym=`$"NASDAQ (Q)";
+update sym:`$"NASDAQ" from `cboeDaily where sym in (`$"NASDAQ (Q)";`$"Nasdaq (Q)");
 update sym:`$"NASDAQ ISE" from `cboeDaily where sym=`$"ISE (I)";
 update sym:`$"NASDAQ BX" from `cboeDaily where sym in (`$"BEX (B)";`$"NASDAQ BX (B)");
-update sym:`$"NASDAQ PSX" from `cboeDaily where sym in (`$"PSX (X)";`$"NASDAQ PSX (X)";`$"NASDAQ PSX (X)");
+update sym:`$"NASDAQ PSX" from `cboeDaily where sym in (`$"PSX (X)";`$"NASDAQ PSX (X)";`$"NASDAQ PSX (X)";`$"PHLX (X)");
 update sym:`$"IEX" from `cboeDaily where sym=`$"IEX (V)";
 update sym:`$"TRF" from `cboeDaily where sym in trfs;
 `date`sym xasc `cboeDaily;
