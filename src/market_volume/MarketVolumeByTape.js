@@ -4,16 +4,19 @@ import autoBind from "react-autobind";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-class MarketShare extends Component {
+class MarketVolumeByTape extends Component {
   constructor(props, context) {
     super(props, context);
     autoBind(this);
+    Highcharts.setOptions({
+      lang: {
+        decimalPoint: ".",
+        thousandsSep: ","
+      }
+    });
   }
 
   render() {
-    const pointFormat = "</br>{series.name}: {point.y:, .2f}%";
-    const format = "{value: ." + this.props.decimal + "f}%";
-
     const options = {
       credits: {
         enabled: true,
@@ -23,42 +26,48 @@ class MarketShare extends Component {
       },
       chart: {
         height: 500,
-        type: "column"
+        type: "area"
       },
       title: {
-        text: "Market Share by Exchange"
+        text: "Market Volume by Tape"
       },
       xAxis: {
-        categories: this.props.data.x,
-        title: {
-          text: "Year"
-        }
+        categories: this.props.data.x
       },
       yAxis: {
         title: {
-          text: "Market Share (%)"
+          text: "Market Volume (billion shares)"
         },
         labels: {
-          format
-        },
-        max: this.props.yAxisMax || null
+          formatter: function() {
+            return this.value / 1e9 + "b";
+          }
+        }
       },
       legend: {
         enabled: true
       },
       tooltip: {
-        shared: false,
-        useHTML: true,
-        headerFormat: "<b>Year {point.key}</b><table>",
-        pointFormat,
-        footerFormat: "</table>",
-        followPointer: true
+        shared: true,
+        followPointer: true,
+        formatter: function() {
+          return this.points.reduce(function(s, point) {
+            return s + "<br/>" + point.series.name + ": " + point.y / 1e9 + "b";
+          }, "<b>Year " + this.x + "</b>");
+        }
       },
       plotOptions: {
-        column: {
+        area: {
           stacking: "normal",
           marker: {
-            enabled: false
+            enabled: false,
+            symbol: "circle",
+            radius: 2,
+            states: {
+              hover: {
+                enabled: true
+              }
+            }
           }
         }
       },
@@ -73,8 +82,8 @@ class MarketShare extends Component {
   }
 }
 
-MarketShare.propTypes = {
+MarketVolumeByTape.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default MarketShare;
+export default MarketVolumeByTape;

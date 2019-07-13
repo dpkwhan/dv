@@ -6,6 +6,7 @@ import Summary from "./components/Summary";
 import MarketShareOverallWithData from "./market_volume/MarketShareOverallWithData";
 import MarketShareNYSETapeCWithData from "./market_volume/MarketShareNYSETapeCWithData";
 import MarketShareNYSENationalWithData from "./market_volume/MarketShareNYSENationalWithData";
+import MarketVolumeByTapeWithData from "./market_volume/MarketVolumeByTapeWithData";
 
 import VIXDailyCloseWithData from "./market_quality/VIXDailyCloseWithData";
 
@@ -32,8 +33,11 @@ const menu = {
       icon: "bar-chart",
       component: MarketShareNYSENationalWithData
     },
-    R3Volume: { title: "R3000 Volume", icon: "bar-chart", component: Todo },
-    Offmarket: { title: "Off-market", icon: "bar-chart", component: Todo },
+    MarketVolume: {
+      title: "Market Volume",
+      icon: "bar-chart",
+      component: MarketVolumeByTapeWithData
+    },
     OddLot: { title: "Odd-Lot Volume", icon: "bar-chart", component: Todo }
   },
   DarkLiquidity: {

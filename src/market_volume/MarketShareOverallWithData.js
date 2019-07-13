@@ -9,6 +9,7 @@ const groupBy = {
   nasdaq: ["NASDAQ", "NASDAQ BX", "NASDAQ ISE", "NASDAQ PSX"],
   nyse: ["NYSE", "NYSE American", "NYSE Arca", "NYSE Chicago", "NYSE National"],
   inverted: ["CBOE BYX", "CBOE EDGA", "NASDAQ BX"],
+  iex: ["IEX"],
   trf: ["TRF"]
 };
 
@@ -86,6 +87,7 @@ class MarketShareOverallWithData extends Component {
             <Radio value="nasdaq">NASDAQ</Radio>
             <Radio value="nyse">NYSE</Radio>
             <Radio value="inverted">Inverted</Radio>
+            <Radio value="iex">IEX</Radio>
             <Radio value="trf">Off-market</Radio>
           </Radio.Group>
         </div>
