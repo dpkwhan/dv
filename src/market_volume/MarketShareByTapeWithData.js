@@ -16,7 +16,6 @@ class MarketShareByTapeWithData extends Component {
     Object.keys(data).forEach(key => {
       if (key === "year") return;
       const tape = key.slice(-1);
-      console.log(key, tape);
       const dataPoints = { name: `Tape ${tape}`, data: data[key] };
       chartData.series.push(dataPoints);
     });

@@ -45,11 +45,10 @@ class MarketShareByExchWithData extends Component {
     const byExch = {};
     for (const d of data) {
       if (isInGroup(d.sym, group)) {
-        if (!byExch.hasOwnProperty(d.sym)) {
-          byExch[d.sym] = [];
-        }
+        if (!byExch.hasOwnProperty(d.sym)) byExch[d.sym] = [];
+        if (!byYear.hasOwnProperty(d.year)) byYear[d.year] = 0;
         byExch[d.sym].push(d);
-        byYear[d.year] = true;
+        byYear[d.year] = byYear[d.year] + d.mktShare;
       }
     }
 
@@ -72,6 +71,13 @@ class MarketShareByExchWithData extends Component {
         });
         chartData.series.push(dataPoints);
       });
+
+    let maxMktShare = 0;
+    Object.keys(byYear).forEach(year => {
+      if (byYear[year] > maxMktShare) maxMktShare = byYear[year];
+    });
+    chartData.decimals = maxMktShare < 0.06 ? 1 : 0;
+
     return chartData;
   }
 

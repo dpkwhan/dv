@@ -38,7 +38,7 @@ class MarketShareByExch extends Component {
           text: "Market Share (%)"
         },
         labels: {
-          format: "{value: .0f}%"
+          format: `{value: .${this.props.data.decimals}f}%`
         },
         max: this.props.yAxisMax || null
       },
