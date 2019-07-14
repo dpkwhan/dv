@@ -30,7 +30,7 @@ class MarketShareByExch extends Component {
       xAxis: {
         categories: this.props.data.x,
         title: {
-          text: "Year"
+          text: null
         }
       },
       yAxis: {
