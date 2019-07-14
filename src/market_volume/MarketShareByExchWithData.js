@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import autoBind from "react-autobind";
 import { Radio } from "antd";
-import MarketShareOverall from "./MarketShareOverall";
-import data from "../data/market_share_overall.json";
+import MarketShareByExch from "./MarketShareByExch";
+import data from "../data/market_share_by_exch.json";
 
 const groupBy = {
   cboe: ["CBOE", "CBOE BYX", "CBOE BZX", "CBOE EDGA", "CBOE EDGX"],
@@ -19,7 +19,7 @@ const isInGroup = (exch, group) => {
   return groupMembers.includes(exch);
 };
 
-class MarketShareOverallWithData extends Component {
+class MarketShareByExchWithData extends Component {
   constructor(props, context) {
     super(props, context);
     autoBind(this);
@@ -92,10 +92,10 @@ class MarketShareOverallWithData extends Component {
           </Radio.Group>
         </div>
 
-        <MarketShareOverall data={data} yAxisMax={yAxisMax} />
+        <MarketShareByExch data={data} yAxisMax={yAxisMax} />
       </Fragment>
     );
   }
 }
 
-export default MarketShareOverallWithData;
+export default MarketShareByExchWithData;

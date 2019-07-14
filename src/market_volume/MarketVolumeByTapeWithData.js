@@ -32,7 +32,7 @@ class MarketVolumeByTapeWithData extends Component {
   }
 
   render() {
-    return <MarketVolumeByTape data={this.formatData()} />;
+    return <MarketVolumeByTape data={this.formatData()} {...this.props} />;
   }
 }
 

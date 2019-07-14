@@ -4,7 +4,7 @@ import autoBind from "react-autobind";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-class MarketShare extends Component {
+class MarketShareByExch extends Component {
   constructor(props, context) {
     super(props, context);
     autoBind(this);
@@ -12,7 +12,6 @@ class MarketShare extends Component {
 
   render() {
     const pointFormat = "</br>{series.name}: {point.y:, .2f}%";
-    const format = "{value: ." + this.props.decimal + "f}%";
 
     const options = {
       credits: {
@@ -26,7 +25,7 @@ class MarketShare extends Component {
         type: "column"
       },
       title: {
-        text: "Market Share by Exchange"
+        text: null
       },
       xAxis: {
         categories: this.props.data.x,
@@ -39,7 +38,7 @@ class MarketShare extends Component {
           text: "Market Share (%)"
         },
         labels: {
-          format
+          format: "{value: .0f}%"
         },
         max: this.props.yAxisMax || null
       },
@@ -73,8 +72,8 @@ class MarketShare extends Component {
   }
 }
 
-MarketShare.propTypes = {
+MarketShareByExch.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default MarketShare;
+export default MarketShareByExch;

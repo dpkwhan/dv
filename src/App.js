@@ -3,7 +3,7 @@ import autoBind from "react-autobind";
 import { Layout, Menu, Icon, Row, Col } from "antd";
 import logo from "./svg/logo.svg";
 import Summary from "./components/Summary";
-import MarketShareOverallWithData from "./market_volume/MarketShareOverallWithData";
+import MarketShare from "./market_volume/MarketShare";
 import MarketShareNYSETapeCWithData from "./market_volume/MarketShareNYSETapeCWithData";
 import MarketShareNYSENationalWithData from "./market_volume/MarketShareNYSENationalWithData";
 import MarketVolumeByTapeWithData from "./market_volume/MarketVolumeByTapeWithData";
@@ -21,7 +21,7 @@ const menu = {
     MarketShare: {
       title: "Market Share",
       icon: "area-chart",
-      component: MarketShareOverallWithData
+      component: MarketShare
     },
     NYSETapeC: {
       title: "NYSE Tape C",

@@ -3,21 +3,16 @@ import PropTypes from "prop-types";
 import autoBind from "react-autobind";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import numeral from "numeral";
 
-class MarketVolumeByTape extends Component {
+class MarketShareByTape extends Component {
   constructor(props, context) {
     super(props, context);
     autoBind(this);
-    Highcharts.setOptions({
-      lang: {
-        decimalPoint: ".",
-        thousandsSep: ","
-      }
-    });
   }
 
   render() {
+    const pointFormat = "</br>{series.name}: {point.y:, .2f}%";
+
     const options = {
       credits: {
         enabled: true,
@@ -27,49 +22,41 @@ class MarketVolumeByTape extends Component {
       },
       chart: {
         height: 500,
-        type: "area"
+        type: "column"
       },
       title: {
         text: null
       },
       xAxis: {
-        categories: this.props.data.x
+        categories: this.props.data.x,
+        title: {
+          text: "Year"
+        }
       },
       yAxis: {
         title: {
-          text: "Market Volume (billion shares)"
+          text: "Market Share (%)"
         },
         labels: {
-          formatter: function() {
-            return this.value / 1e9 + "b";
-          }
-        }
+          format: "{value: .0f}%"
+        },
+        max: this.props.yAxisMax || null
       },
       legend: {
         enabled: true
       },
       tooltip: {
-        shared: true,
-        followPointer: true,
-        formatter: function() {
-          return this.points.reduce(function(s, point) {
-            return `${s}<br/>${point.series.name}: ${numeral(point.y / 1e9).format("0,0")}b`;
-          }, `<b>Year ${this.x}</b>`);
-        }
+        shared: false,
+        useHTML: true,
+        headerFormat: "<b>Year {point.key}</b><table>",
+        pointFormat,
+        footerFormat: "</table>",
+        followPointer: true
       },
       plotOptions: {
-        area: {
-          stacking: this.props.stacking || "normal",
-          marker: {
-            enabled: false,
-            symbol: "circle",
-            radius: 2,
-            states: {
-              hover: {
-                enabled: true
-              }
-            }
-          }
+        column: {
+          pointPadding: 0.2,
+          borderWidth: 0
         }
       },
       series: this.props.data.series
@@ -83,8 +70,8 @@ class MarketVolumeByTape extends Component {
   }
 }
 
-MarketVolumeByTape.propTypes = {
+MarketShareByTape.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default MarketVolumeByTape;
+export default MarketShareByTape;

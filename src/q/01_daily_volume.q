@@ -4,7 +4,7 @@ system "cd ",baseDir,"cboe/daily_volume/";
 years:-12#2007+til 13;
 fnames: ":daily_volume_" ,/: (string years) ,\: ".csv";
 cboeDaily:raze 0:[("DSFFFFFFFFJJJJ"; enlist ",")] each `$fnames;
-cnames:`date`sym`tapeAShares`tapeBShares`tapeCShares`totalShares`tapeANotonal`tapeBNotional`tapeCNotional`totalNotional`tapeATradeCount`tapeBTradeCount`tapeCTradeCount`totalTradeCount;
+cnames:`date`sym`tapeAShares`tapeBShares`tapeCShares`totalShares`tapeANotional`tapeBNotional`tapeCNotional`totalNotional`tapeATradeCount`tapeBTradeCount`tapeCTradeCount`totalTradeCount;
 cboeDaily:cnames xcol cboeDaily;
 trfs:(`$"ADF (D)";`$"NSX (DC)";`$"NASDAQ (DQ)";`$"Nasdaq (DQ)";`$"NYSE (DN)";`$"TRF (D)";`$"FINRA / Nasdaq TRF Chicago (DB)";`$"FINRA / NYSE TRF (DN)";`$"FINRA / Nasdaq TRF Carteret (DQ)");
 update sym:`$"NYSE" from `cboeDaily where sym=`$"NYSE (N)";
@@ -33,9 +33,14 @@ system "cd ","C:/Users/david/workspace/git/dv/src/data";
 
 byYearExch:0!select shares:sum tapeAShares+tapeBShares+tapeCShares by date.year,sym from cboeDaily;
 byYear:select totalShares:sum tapeAShares+tapeBShares+tapeCShares by date.year from cboeDaily;
-marketShare:byYearExch lj byYear;
-update mktShare:shares%totalShares from `marketShare;
-`:market_share_overall.json 0: enlist .j.j select year,sym,mktShare from marketShare;
+marketShareByExch:byYearExch lj byYear;
+marketShareByExch:update mktShare:shares%totalShares from marketShareByExch;
+`:market_share_by_exch.json 0: enlist .j.j select year,sym,mktShare from marketShareByExch;
+
+byYearTape:select sum tapeAShares,sum tapeBShares,sum tapeCShares by date.year from cboeDaily;
+marketShareByTape:byYearTape lj byYear;
+marketShareByTape:select year,mktShareA:100*tapeAShares%totalShares,mktShareB:100*tapeBShares%totalShares,mktShareC:100*tapeCShares%totalShares from marketShareByTape;
+`:market_share_by_tape.json 0: enlist .j.j flip marketShareByTape;
 
 nyseCLiveDate:2018.04.09;
 byWeekExch:select sum tapeCShares by week:getWeek date,sym from cboeDaily where date>=nyseCLiveDate,sym=`$"NYSE";
@@ -49,5 +54,4 @@ byWeek:select sum totalShares by week:getWeek date from cboeDaily where date>=ny
 nyseNationalMktShares:select string week,mktShare:shares%totalShares from nyseNationalByWeek lj byWeek;
 `:market_share_nyse_national.json 0: enlist .j.j select from nyseNationalMktShares;
 
-byYearTape:select sum tapeAShares,sum tapeBShares,sum tapeCShares by date.year from cboeDaily;
 `:market_volume_by_tape.json 0: enlist .j.j select from byYearTape;
