@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import autoBind from "react-autobind";
 import Highcharts from "highcharts";
+import HE from "highcharts/modules/exporting";
 import HighchartsReact from "highcharts-react-official";
+HE(Highcharts);
 
 class MarketShareByExch extends Component {
   constructor(props, context) {
@@ -21,11 +23,10 @@ class MarketShareByExch extends Component {
         text: "Source: Cboe Global Markets"
       },
       chart: {
-        height: 500,
         type: "column"
       },
       title: {
-        text: null
+        text: "Market Share"
       },
       xAxis: {
         categories: this.props.data.x,

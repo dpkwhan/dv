@@ -22,7 +22,6 @@ class MarketShareNYSENational extends Component {
         text: "Source: Cboe Global Markets"
       },
       chart: {
-        height: 500,
         type: "column"
       },
       title: {

@@ -26,11 +26,11 @@ class MarketVolumeByTape extends Component {
         text: "Source: Cboe Global Markets"
       },
       chart: {
-        height: 500,
+        // height: 500,
         type: "area"
       },
       title: {
-        text: null
+        text: "Market Volume By Tape"
       },
       xAxis: {
         categories: this.props.data.x
