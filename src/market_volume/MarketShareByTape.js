@@ -21,11 +21,10 @@ class MarketShareByTape extends Component {
         text: "Source: Cboe Global Markets"
       },
       chart: {
-        height: 500,
         type: "column"
       },
       title: {
-        text: null
+        text: "Market Share"
       },
       xAxis: {
         categories: this.props.data.x,

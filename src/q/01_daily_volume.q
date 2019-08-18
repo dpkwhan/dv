@@ -1,6 +1,6 @@
-baseDir:"C:/Users/david/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/dhan/data/";
+dataDir:(getenv `DAILY_VOLUME_DATA_DIR);
 
-system "cd ",baseDir,"cboe/daily_volume/";
+system "cd ",dataDir;
 years:-12#2007+til 13;
 fnames: ":daily_volume_" ,/: (string years) ,\: ".csv";
 cboeDaily:raze 0:[("DSFFFFFFFFJJJJ"; enlist ",")] each `$fnames;
