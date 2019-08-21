@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Divider, Icon } from "antd";
-import MarketShareByExchWithData from "./MarketShareByExchWithData";
+import MarketShareByYearExchWithData from "./MarketShareByYearExchWithData";
 import MarketShareByTapeWithData from "./MarketShareByTapeWithData";
 
 class MarketShare extends Component {
@@ -10,7 +10,7 @@ class MarketShare extends Component {
         <Divider orientation="left">
           <Icon type="bar-chart" /> By Exchange
         </Divider>
-        <MarketShareByExchWithData />
+        <MarketShareByYearExchWithData />
         <Divider orientation="left">
           <Icon type="bar-chart" /> By Tape
         </Divider>

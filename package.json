@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.19.2",
+    "echarts": "^4.2.1",
     "highcharts": "^7.1.2",
     "highcharts-react-official": "^2.2.2",
     "moment": "^2.22.2",

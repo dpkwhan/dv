@@ -21,33 +21,33 @@ const menu = {
     MarketShare: {
       title: "Market Share",
       icon: "area-chart",
-      component: MarketShare
+      component: MarketShare,
     },
     NYSETapeC: {
       title: "NYSE Tape C",
       icon: "line-chart",
-      component: MarketShareNYSETapeCWithData
+      component: MarketShareNYSETapeCWithData,
     },
     NYSENational: {
       title: "NYSE National",
       icon: "bar-chart",
-      component: MarketShareNYSENationalWithData
+      component: MarketShareNYSENationalWithData,
     },
     MarketVolume: {
       title: "Market Volume",
       icon: "bar-chart",
-      component: MarketVolumeByTapeWithData
+      component: MarketVolumeByTapeWithData,
     },
-    OddLot: { title: "Odd-Lot Volume", icon: "bar-chart", component: Todo }
+    OddLot: { title: "Odd-Lot Volume", icon: "bar-chart", component: Todo },
   },
   DarkLiquidity: {
     ATSVolume: { title: "ATS Volume", icon: "pie-chart", component: Todo },
     NonATSVolume: {
       title: "Non-ATS Volume",
       icon: "pie-chart",
-      component: Todo
+      component: Todo,
     },
-    BlockVolume: { title: "Block Volume", icon: "pie-chart", component: Todo }
+    BlockVolume: { title: "Block Volume", icon: "pie-chart", component: Todo },
   },
   AuctionVolume: {
     CloseVolume: { title: "Close Volume", icon: "pie-chart", component: Todo },
@@ -55,22 +55,22 @@ const menu = {
     OpenVolume: { title: "Open Volume", icon: "pie-chart", component: Todo },
     AroundOpen: { title: "Around Open", icon: "pie-chart", component: Todo },
     AroundClose: { title: "Around Close", icon: "pie-chart", component: Todo },
-    BMC: { title: "Bats MC", icon: "pie-chart", component: Todo }
+    BMC: { title: "Bats MC", icon: "pie-chart", component: Todo },
   },
   MarketQuality: {
     VIX: {
       title: "Volatility",
       icon: "pie-chart",
-      component: VIXDailyCloseWithData
+      component: VIXDailyCloseWithData,
     },
     Spread: { title: "Spread", icon: "pie-chart", component: Todo },
     QueueLength: { title: "Queue Length", icon: "pie-chart", component: Todo },
-    TurnoverTime: { title: "Turnover Time", icon: "pie-chart", component: Todo }
+    TurnoverTime: { title: "Turnover Time", icon: "pie-chart", component: Todo },
   },
   MarketEvents: {
     RegRule: { title: "Reg Rules", icon: "schedule", component: RegRule },
-    People: { title: "On the Move", icon: "user", component: Todo }
-  }
+    People: { title: "On the Move", icon: "user", component: Todo },
+  },
 };
 
 let i = 1;
@@ -85,17 +85,12 @@ class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     autoBind(this);
-    this.state = {
-      openKeys: [],
-      collapsed: false,
-      component: null,
-      showTOC: true
-    };
+    this.state = { openKeys: [], collapsed: false, component: null, showTOC: true };
   }
 
   toggle() {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   }
 
@@ -114,14 +109,12 @@ class App extends React.Component {
   rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4", "sub5", "sub6"];
 
   onOpenChange(openKeys) {
-    const latestOpenKey = openKeys.find(
-      key => this.state.openKeys.indexOf(key) === -1
-    );
+    const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
     if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       this.setState({ openKeys });
     } else {
       this.setState({
-        openKeys: latestOpenKey ? [latestOpenKey] : []
+        openKeys: latestOpenKey ? [latestOpenKey] : [],
       });
     }
   }
@@ -147,12 +140,7 @@ class App extends React.Component {
                 <b>{" Menu"}</b>
               </div>
             </div>
-            <Menu
-              theme="dark"
-              mode="inline"
-              openKeys={this.state.openKeys}
-              onOpenChange={this.onOpenChange}
-            >
+            <Menu theme="dark" mode="inline" openKeys={this.state.openKeys} onOpenChange={this.onOpenChange}>
               <SubMenu
                 key="sub1"
                 title={
@@ -163,10 +151,7 @@ class App extends React.Component {
                 }
               >
                 {Object.entries(mv).map(([name, item]) => (
-                  <Menu.Item
-                    key={item.key}
-                    onClick={() => this.handleMenuItemClick(name)}
-                  >
+                  <Menu.Item key={item.key} onClick={() => this.handleMenuItemClick(name)}>
                     <Icon type={item.icon} />
                     <span>{item.title}</span>
                   </Menu.Item>
@@ -183,10 +168,7 @@ class App extends React.Component {
                 }
               >
                 {Object.entries(dl).map(([name, item]) => (
-                  <Menu.Item
-                    key={item.key}
-                    onClick={() => this.handleMenuItemClick(name)}
-                  >
+                  <Menu.Item key={item.key} onClick={() => this.handleMenuItemClick(name)}>
                     <Icon type={item.icon} />
                     <span>{item.title}</span>
                   </Menu.Item>
@@ -203,10 +185,7 @@ class App extends React.Component {
                 }
               >
                 {Object.entries(av).map(([name, item]) => (
-                  <Menu.Item
-                    key={item.key}
-                    onClick={() => this.handleMenuItemClick(name)}
-                  >
+                  <Menu.Item key={item.key} onClick={() => this.handleMenuItemClick(name)}>
                     <Icon type={item.icon} />
                     <span>{item.title}</span>
                   </Menu.Item>
@@ -223,10 +202,7 @@ class App extends React.Component {
                 }
               >
                 {Object.entries(mq).map(([name, item]) => (
-                  <Menu.Item
-                    key={item.key}
-                    onClick={() => this.handleMenuItemClick(name)}
-                  >
+                  <Menu.Item key={item.key} onClick={() => this.handleMenuItemClick(name)}>
                     <Icon type={item.icon} />
                     <span>{item.title}</span>
                   </Menu.Item>
@@ -243,10 +219,7 @@ class App extends React.Component {
                 }
               >
                 {Object.entries(me).map(([name, item]) => (
-                  <Menu.Item
-                    key={item.key}
-                    onClick={() => this.handleMenuItemClick(name)}
-                  >
+                  <Menu.Item key={item.key} onClick={() => this.handleMenuItemClick(name)}>
                     <Icon type={item.icon} />
                     <span>{item.title}</span>
                   </Menu.Item>
@@ -258,12 +231,7 @@ class App extends React.Component {
             <Header style={{ background: "#fff", padding: 0 }}>
               <Row type="flex">
                 <Col span={8} order={3} justify="end">
-                  <img
-                    className="right"
-                    src={logo}
-                    alt="Logo"
-                    style={{ width: 100, height: 50 }}
-                  />
+                  <img className="right" src={logo} alt="Logo" style={{ width: 100, height: 50 }} />
                 </Col>
                 <Col span={8} order={2} justify="center">
                   <span>
@@ -283,19 +251,8 @@ class App extends React.Component {
             </Header>
 
             <Row>
-              <Content
-                style={{
-                  margin: "24px 16px",
-                  padding: 24,
-                  background: "#fff",
-                  minHeight: 600
-                }}
-              >
-                {this.state.showTOC ? (
-                  <Summary />
-                ) : this.state.component ? (
-                  <this.state.component />
-                ) : null}
+              <Content style={{ margin: "24px 16px", padding: 24, background: "#fff", minHeight: 600 }}>
+                {this.state.showTOC ? <Summary /> : this.state.component ? <this.state.component /> : null}
               </Content>
             </Row>
           </Layout>
@@ -304,7 +261,7 @@ class App extends React.Component {
           style={{
             textAlign: "center",
             verticalAlign: "middle",
-            lineHeight: "40px"
+            lineHeight: "40px",
           }}
         >
           <Icon type="copyright" /> 2019 David Han

@@ -1,74 +1,14 @@
 [
-  {
-    "year": 2008,
-    "tapeAShares": 1.279584e12,
-    "tapeBShares": 3.765876e11,
-    "tapeCShares": 5.809088e11
-  },
-  {
-    "year": 2009,
-    "tapeAShares": 1.42098e12,
-    "tapeBShares": 4.754644e11,
-    "tapeCShares": 5.63398e11
-  },
-  {
-    "year": 2010,
-    "tapeAShares": 1.216841e12,
-    "tapeBShares": 3.663278e11,
-    "tapeCShares": 5.52466e11
-  },
-  {
-    "year": 2011,
-    "tapeAShares": 1.094332e12,
-    "tapeBShares": 3.71003e11,
-    "tapeCShares": 5.095229e11
-  },
-  {
-    "year": 2012,
-    "tapeAShares": 9.088921e11,
-    "tapeBShares": 2.630955e11,
-    "tapeCShares": 4.373519e11
-  },
-  {
-    "year": 2013,
-    "tapeAShares": 8.480979e11,
-    "tapeBShares": 2.670184e11,
-    "tapeCShares": 4.441143e11
-  },
-  {
-    "year": 2014,
-    "tapeAShares": 8.475936e11,
-    "tapeBShares": 2.766949e11,
-    "tapeCShares": 4.921881e11
-  },
-  {
-    "year": 2015,
-    "tapeAShares": 9.233062e11,
-    "tapeBShares": 3.414438e11,
-    "tapeCShares": 4.770578e11
-  },
-  {
-    "year": 2016,
-    "tapeAShares": 9.843123e11,
-    "tapeBShares": 3.871387e11,
-    "tapeCShares": 4.804842e11
-  },
-  {
-    "year": 2017,
-    "tapeAShares": 8.58465e11,
-    "tapeBShares": 2.979043e11,
-    "tapeCShares": 4.819926e11
-  },
-  {
-    "year": 2018,
-    "tapeAShares": 9.123217e11,
-    "tapeBShares": 3.602781e11,
-    "tapeCShares": 5.651726e11
-  },
-  {
-    "year": 2019,
-    "tapeAShares": 5.680566e11,
-    "tapeBShares": 2.14515e11,
-    "tapeCShares": 3.487193e11
-  }
+  { "year": 2008, "tapeAShares": 1.279584e12, "tapeBShares": 3.765876e11, "tapeCShares": 5.809088e11 },
+  { "year": 2009, "tapeAShares": 1.42098e12, "tapeBShares": 4.754644e11, "tapeCShares": 5.63398e11 },
+  { "year": 2010, "tapeAShares": 1.216841e12, "tapeBShares": 3.663278e11, "tapeCShares": 5.52466e11 },
+  { "year": 2011, "tapeAShares": 1.094332e12, "tapeBShares": 3.71003e11, "tapeCShares": 5.095229e11 },
+  { "year": 2012, "tapeAShares": 9.088921e11, "tapeBShares": 2.630955e11, "tapeCShares": 4.373519e11 },
+  { "year": 2013, "tapeAShares": 8.480979e11, "tapeBShares": 2.670184e11, "tapeCShares": 4.441143e11 },
+  { "year": 2014, "tapeAShares": 8.475936e11, "tapeBShares": 2.766949e11, "tapeCShares": 4.921881e11 },
+  { "year": 2015, "tapeAShares": 9.233062e11, "tapeBShares": 3.414438e11, "tapeCShares": 4.770578e11 },
+  { "year": 2016, "tapeAShares": 9.843123e11, "tapeBShares": 3.871387e11, "tapeCShares": 4.804842e11 },
+  { "year": 2017, "tapeAShares": 8.58465e11, "tapeBShares": 2.979043e11, "tapeCShares": 4.819926e11 },
+  { "year": 2018, "tapeAShares": 9.123217e11, "tapeBShares": 3.602781e11, "tapeCShares": 5.651726e11 },
+  { "year": 2019, "tapeAShares": 5.680566e11, "tapeBShares": 2.14515e11, "tapeCShares": 3.487193e11 }
 ]

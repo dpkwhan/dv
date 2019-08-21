@@ -55,3 +55,8 @@ nyseNationalMktShares:select string week,mktShare:shares%totalShares from nyseNa
 `:market_share_nyse_national.json 0: enlist .j.j select from nyseNationalMktShares;
 
 `:market_volume_by_tape.json 0: enlist .j.j select from byYearTape;
+
+exch:asc exec distinct sym from marketShareByExch;
+default:exch!(count exch)#0;
+mktShareByYearExch:0!exec (default,sym!mktShare) by year:year from marketShareByExch;
+`:market_share_by_year_exch.json 0: enlist .j.j flip mktShareByYearExch;
