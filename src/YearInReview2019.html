@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <title>Spectacle</title>
+    <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/normalize.css@7/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/antd@3.22.0/dist/antd.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- react -->
+    <script src="https://unpkg.com/prop-types@15/prop-types.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+
+    <!-- spectacle -->
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/spectacle@^5/dist/spectacle.js"></script>
+    <script src="https://unpkg.com/spectacle@^5/lib/one-page.js"></script>
+
+    <!-- echarts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
+
+    <!-- numeral -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <!-- ant design -->
+    <script src="https://unpkg.com/moment/min/moment-with-locales.js"></script>
+    <script src="https://unpkg.com/antd@3.22.0/dist/antd-with-locales.min.js"></script>
+
+    <script type="text/spectacle">
+      () => {
+        const { Button, Row, Col } = antd;
+        const { Component } = React;
+        const { Heading } = Spectacle;
+
+        // Customize the default theme.
+        const { themes: { defaultTheme } } = Spectacle;
+        const theme = defaultTheme({
+          primary: 'white',
+          secondary: 'black',
+          tertiary: 'blue',
+          quaternary: 'black'
+        });
+
+        class Interactive extends Component {
+          constructor() {
+            super();
+            this.state = {
+              count: 0
+            };
+            this.handleClick = this.handleClick.bind(this);
+          }
+          handleClick() {
+            this.setState({
+              count: this.state.count + 1
+            });
+          }
+          render() {
+            const styles = {
+              padding: 20,
+              background: "black",
+              minWidth: 300,
+              marginTop: 20,
+              textTransform: "uppercase",
+              border: "none",
+              color: "white",
+              outline: "none",
+              fontWeight: "bold",
+              fontSize: "2em"
+            };
+            return (
+              <div>
+              {this.state.count < 5 ?
+                <div>
+                  <Heading size={5} textColor="black">
+                    The button has been clicked {this.state.count} times
+                  </Heading>
+                  <button style={styles} type="button" onClick={this.handleClick}>Click Me</button>
+                </div> :
+                  <Heading size={5} fit caps textColor="black">Easy there pal</Heading>
+                }
+              </div>
+            );
+          }
+        }
+
+        class BubbleChart extends Component {
+          createChart() {
+            this.chart = echarts.init(ReactDOM.findDOMNode(this));
+            const options = this.makeChartOptions();
+            this.chart.setOption(options);
+          }
+
+          makeChartOptions() {
+            const data = [
+                [[1516,68,1154605773,'China',1990],[29476,77.1,56943299,'France',1990],[31476,75.4,78958237,'Germany',1990],[1777,57.7,870601776,'India',1990],[29550,79.1,122249285,'Japan',1990],[12087,72,42972254,'South Korea',1990],[10088,70.8,38195258,'Poland',1990],[19349,69.6,147568552,'Russia',1990],[10670,67.3,53994605,'Turkey',1990],[37062,75.4,252847810,'United States',1990]],
+                [[13334,76.9,1376048943,'China',2015],[37599,81.9,64395345,'France',2015],[44053,81.1,80688545,'Germany',2015],[5903,66.8,1311050527,'India',2015],[36162,83.5,126573481,'Japan',2015],[34644,80.7,50293439,'South Korea',2015],[24787,77.3,38611794,'Poland',2015],[23038,73.13,143456918,'Russia',2015],[19360,76.5,78665830,'Turkey',2015],[53354,79.1,321773631,'United States',2015]]
+            ];
+            return {
+              title: {
+                  text: 'Life Expectancy and GDP',
+                  subtext: '1990 vs 2015',
+                  left: 'center',
+              },
+              toolbox: {
+                  feature: {
+                      saveAsImage: {
+                          show: true,
+                          title: 'Save As Image',
+                          type : 'png',
+                          name: 'ECharts',
+                      },
+                      dataZoom: {
+                          show: true,
+                          yAxisIndex: 'none',
+                          title: {
+                              zoom: 'Area Zoom',
+                              back: 'Restore Area Zoom'
+                          }
+                      },
+                      restore: {
+                          show: true,
+                          title: 'Restore',
+                      },
+                  },
+                  right: 60
+              },
+              legend: {
+                  bottom: 10,
+                  left: 'center',
+                  data: ['1990', '2015']
+              },
+              xAxis: {
+                  splitLine: {
+                      lineStyle: {
+                          type: 'dashed'
+                      }
+                  },
+                  axisLabel: {
+                      formatter: function (value, index) {
+                          return value / 1000 + 'k';
+                      },
+                  },
+                  name: 'GDP',
+                  nameLocation: 'end',
+                  nameGap: 5
+              },
+              yAxis: {
+                  splitLine: {
+                      lineStyle: {
+                          type: 'dashed'
+                      }
+                  },
+                  scale: true,
+                  name: 'Life Expectancy',
+                  nameLocation: 'middle',
+                  nameGap: 20
+              },
+              series: [{
+                  name: '1990',
+                  data: data[0],
+                  type: 'scatter',
+                  symbolSize: function (data) {
+                      return Math.sqrt(data[2]) / 4e2;
+                  },
+                  label: {
+                      emphasis: {
+                          show: true,
+                          formatter: function (param) {
+                              return param.data[3];
+                          },
+                          position: 'top'
+                      }
+                  },
+                  itemStyle: {
+                      normal: {
+                          shadowBlur: 10,
+                          shadowColor: 'rgba(120, 36, 50, 0.5)',
+                          shadowOffsetY: 5,
+                          color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                              offset: 0,
+                              color: 'rgb(251, 118, 123)'
+                          }, {
+                              offset: 1,
+                              color: 'rgb(204, 46, 72)'
+                          }])
+                      }
+                  }
+              }, {
+                  name: '2015',
+                  data: data[1],
+                  type: 'scatter',
+                  symbolSize: function (data) {
+                      return Math.sqrt(data[2]) / 4e2;
+                  },
+                  label: {
+                      emphasis: {
+                          show: true,
+                          formatter: function (param) {
+                              return param.data[3];
+                          },
+                          position: 'top'
+                      }
+                  },
+                  itemStyle: {
+                      normal: {
+                          shadowBlur: 10,
+                          shadowColor: 'rgba(25, 100, 150, 0.5)',
+                          shadowOffsetY: 5,
+                          color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                              offset: 0,
+                              color: 'rgb(129, 227, 238)'
+                          }, {
+                              offset: 1,
+                              color: 'rgb(25, 183, 207)'
+                          }])
+                      }
+                  }
+              }]
+            };
+          }
+
+          componentDidMount() {
+            this.createChart();
+            window.onresize = () => {
+              this.chart.resize();
+            };
+          }
+
+          componentWillUnmount() {
+            this.chart.dispose();
+          }
+
+          render() {
+            return <div style={{ height: "100%", width: "100%", minHeight: "600px" }} />;
+          }
+        }
+
+        // --------------------------------------------------------------------
+        // The presentation!
+        // --------------------------------------------------------------------
+        return (
+          <Deck transition={["zoom", "slide"]} theme={theme} transitionDuration={500} contentWidth={"90%"} contentHeight={"100%"}>
+            <SlideSet style={{ border: '1px solid red' }}>
+            <Slide bgColor="primary">
+              <Heading transition={["slide"]} size={1} caps lineHeight={1} textColor="secondary" margin="0px 0px 50px 0px">
+                Year In Review
+              </Heading>
+              <Heading size={3} caps textColor="tertiary" margin="0px 0px 50px 0px">
+                2019
+              </Heading>
+              <Text textSize="1.5em" margin="0px 0px 50px 0px" bold textColor="black">
+                Presented by
+              </Text>
+              <Text textSize="1.0em" margin="0px 0px 30px 0px" bold textColor="blue">
+                David Han
+              </Text>
+            </Slide>
+
+            <Slide transition={["zoom", "fade"]} bgColor="primary">
+              <Text textSize="1.0em" margin="0px 0px 30px 0px" bold textColor="black">
+                Bubble Chart
+              </Text>
+              <Row gutter={16}>
+                  <Col span={16}>
+                    <BubbleChart />
+                  </Col>
+                  <Col span={8}>
+                    <List>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                        <Appear><ListItem>Inline style based theme system</ListItem></Appear>
+                      </List>
+                  </Col>
+                </Row>
+
+            </Slide>
+
+            <Slide transition={["fade"]} bgColor="primary">
+              <Button type="primary">Primary</Button>
+            </Slide>
+            </SlideSet>
+          </Deck>
+        );
+      }
+    </script>
+  </body>
+</html>
