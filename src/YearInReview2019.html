@@ -422,7 +422,7 @@
                   params.forEach(item => {
                     const colorEle = colorSpan(item.color);
                     const pct = numeral(item.data).format("0.00%");
-                    const xx = `<tr><td style="text-align:left">${colorEle} ${item.seriesName}:</td><td style="text-align:right;padding-left:5px">${pct}</td></tr>`;
+                    const xx = `<tr><td style="text-align:left">${colorEle} ${item.seriesName}</td><td style="text-align:right;padding-left:5px">${pct}</td></tr>`;
                     rez += xx;
                   });
                   rez += "</table>";
@@ -433,7 +433,7 @@
                 bottom: 0,
                 left: "center",
                 itemWidth: 20,
-                padding: [60, 100, 0, 100],
+                padding: [60, 80, 0, 80],
                 data: legendData,
               },
               toolbox: {
@@ -533,7 +533,7 @@
           cboe: ["CBOE", "CBOE BYX", "CBOE BZX", "CBOE EDGA", "CBOE EDGX"],
           nasdaq: ["NASDAQ", "NASDAQ BX", "NASDAQ ISE", "NASDAQ PSX"],
           nyse: ["NYSE", "NYSE American", "NYSE Arca", "NYSE Chicago", "NYSE National"],
-          inverted: ["CBOE BYX", "CBOE EDGA", "NASDAQ BX"],
+          inverted: ["CBOE BYX", "CBOE EDGA", "NASDAQ BX", "NYSE National"],
           iex: ["IEX"],
           trf: ["TRF"],
         };
@@ -690,9 +690,6 @@
           }
         }
 
-        // --------------------------------------------------------------------
-        // The presentation!
-        // --------------------------------------------------------------------
         return (
           <Deck transition={["zoom", "slide"]} theme={theme} transitionDuration={500} contentWidth={"90%"} contentHeight={"100%"}>
             <SlideSet style={{ border: '1px solid red' }}>
