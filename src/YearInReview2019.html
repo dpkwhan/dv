@@ -15,18 +15,18 @@
       }
 
       .comments {
-        margin-top: 100px;
+        margin-top: 50px;
       }
 
-      .steps-content {
+      .comments-content {
         margin-top: 0px;
         border: 1px dashed #e9e9e9;
         border-radius: 6px;
         background-color: #fafafa;
-        min-height: 200px;
         text-align: left;
         padding-top: 10px;
         padding-left: 10px;
+        height: "50vh";
       }
     </style>
   </head>
@@ -495,8 +495,9 @@
 
           resizeContainer() {
             const node = ReactDOM.findDOMNode(this);
-            node.style.width = node.parentNode.innerWidth + 'px';
-            node.style.height = node.parentNode.innerHeight + 'px';
+            const { height } = node.getBoundingClientRect();
+            node.style.height = height;
+            this.props.onResize(height);
           }
 
           componentDidMount() {
@@ -507,6 +508,9 @@
               this.resizeContainer();
               this.chart.resize();
             };
+            setTimeout(function(){
+              this.resizeContainer();
+            }.bind(this), 500);
           }
 
           componentWillUnmount() {
@@ -525,43 +529,144 @@
           }
 
           render() {
-            return <div style={{ height: "60vh", width: "100%"}} className="chart" />;
-          }
+            return <div style={{ height: "70vh", width: "100%"}} className="chart" />;
+           }
         }
-
-        const groupBy = {
-          cboe: ["CBOE", "CBOE BYX", "CBOE BZX", "CBOE EDGA", "CBOE EDGX"],
-          nasdaq: ["NASDAQ", "NASDAQ BX", "NASDAQ ISE", "NASDAQ PSX"],
-          nyse: ["NYSE", "NYSE American", "NYSE Arca", "NYSE Chicago", "NYSE National"],
-          inverted: ["CBOE BYX", "CBOE EDGA", "NASDAQ BX", "NYSE National"],
-          iex: ["IEX"],
-          trf: ["TRF"],
-        };
-
-        const isInGroup = (exch, group) => {
-          if (group === "all") return true;
-          const groupMembers = groupBy[group];
-          return groupMembers.includes(exch);
-        };
 
         class MarketShareByYearExchWithData extends Component {
           constructor(props, context) {
             super(props, context);
             autoBind(this);
-            this.state = { group: "cboe", chartData: this.filterData("cboe") };
+            this.exchangeGroups = this.getExchangeGroups();
+            this.state = { groupName: "cboe", chartData: this.filterData("cboe"), height: 300 };
+          }
+
+          isInGroup(exch, groupName) {
+            if (groupName === "all") return true;
+            const groupMembers = this.exchangeGroups[groupName].venues;
+            return groupMembers.includes(exch);
+          }
+
+          getExchangeGroups() {
+            return {
+              all: {
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>Overall Market Share</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                )
+              },
+              cboe: {
+                venues: ["CBOE", "CBOE BYX", "CBOE BZX", "CBOE EDGA", "CBOE EDGX"],
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>CBOE</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                )
+              },
+              nasdaq: {
+                venues: ["NASDAQ", "NASDAQ BX", "NASDAQ ISE", "NASDAQ PSX"],
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>NASDAQ</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                ),
+              },
+              nyse: {
+                venues: ["NYSE", "NYSE American", "NYSE Arca", "NYSE Chicago", "NYSE National"],
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>NYSE</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                )
+              },
+              inverted: {
+                venues: ["CBOE BYX", "CBOE EDGA", "NASDAQ BX", "NYSE National"],
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>Inverted Venues</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                )
+              },
+              iex: {
+                venues: ["IEX"],
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>IEX</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                )
+              },
+              trf: {
+                venues: ["TRF"],
+                content: (
+                  <div>
+                    <Row type="flex" justify="start">
+                      <Divider orientation="left"><h2>Off-Market</h2></Divider>
+                      <font size={4}>
+                        Cboe introduces a closing match process for non-BZX listed
+                        securities. Cboe seeks to match buy and sell MOC orders at the official
+                        primary closing price
+                      </font>
+                    </Row>
+                  </div>
+                )
+              },
+            };
           }
 
           onGroupSelection(e) {
-            const group = e.target.value;
-            this.setState({ group, chartData: this.filterData(group) });
-          };
+            const groupName = e.target.value;
+            this.setState({ groupName, chartData: this.filterData(groupName) });
+          }
 
-          filterData(group) {
+          filterData(groupName) {
             const chartData = { xAxisData: marketShareByYearExch.year, legendData: [], series: [] };
             Object.keys(marketShareByYearExch).forEach(key => {
               if (key === "year") return;
               const name = key;
-              if (isInGroup(name, group)) {
+              if (this.isInGroup(name, groupName)) {
                 const dataPoints = {
                   name,
                   type: "bar",
@@ -575,117 +680,47 @@
               }
             });
             return chartData;
-          };
+          }
+
+          onResize(height) {
+            this.setState({height});
+          }
 
           render() {
-            const { group, chartData } = this.state;
+            const { groupName, chartData, height } = this.state;
+            const commentContent = this.exchangeGroups[groupName].content;
 
             return (
               <Fragment>
-                <div align="right">
-                  <Radio.Group onChange={this.onGroupSelection} value={group}>
-                    <Radio value="all">All</Radio>
-                    <Radio value="cboe">CBOE</Radio>
-                    <Radio value="nasdaq">NASDAQ</Radio>
-                    <Radio value="nyse">NYSE</Radio>
-                    <Radio value="inverted">Inverted</Radio>
-                    <Radio value="iex">IEX</Radio>
-                    <Radio value="trf">Off-market</Radio>
-                  </Radio.Group>
-                </div>
-                <MarketShareByYearExch data={chartData} />
-              </Fragment>
-            );
-          }
-        }
-
-        const steps = [{
-          title: "CBOE",
-          content: (
-            <div>
-              <Row type="flex" justify="start">
-                <Divider orientation="left"><h2>CBOE</h2></Divider>
-                <font size={4}>
-                  Cboe introduces a closing match process for non-BZX listed
-                  securities. Cboe seeks to match buy and sell MOC orders at the official
-                  primary closing price
-                </font>
-              </Row>
-            </div>
-          )
-        }, {
-          title: "NASDAQ",
-          content: (
-            <div>
-              <Row type="flex" justify="start">
-                <Divider orientation="left"><h2>NASDAQ</h2></Divider>
-                <font size={4}>
-                  Cboe introduces a closing match process for non-BZX listed
-                  securities. Cboe seeks to match buy and sell MOC orders at the official
-                  primary closing price
-                </font>
-              </Row>
-            </div>
-          )
-        }, {
-          title: "NYSE",
-          content: (
-            <div>
-              <Row type="flex" justify="start">
-                <Divider orientation="left"><h2>NYSE</h2></Divider>
-                <font size={4}>
-                  Cboe introduces a closing match process for non-BZX listed
-                  securities. Cboe seeks to match buy and sell MOC orders at the official
-                  primary closing price
-                </font>
-              </Row>
-            </div>
-          )
-        }, {
-          title: "Inverted",
-          content: (
-            <div>
-              <Row type="flex" justify="start">
-                <Divider orientation="left"><h2>Inverted Venues</h2></Divider>
-                <font size="4">
-                Cboe introduces a closing match process for non-BZX listed
-                securities. Cboe seeks to match buy and sell MOC orders at the official
-                primary closing price
-                </font>
-              </Row>
-            </div>
-          )
-        }];
-
-        class Comments extends Component {
-          constructor(props) {
-            super(props);
-            autoBind(this);
-            this.state = { current: 0 };
-          }
-
-          onChange(current) {
-            this.setState({ current });
-          }
-
-          render() {
-            const { current } = this.state;
-
-            return (
-              <div>
-                <Row className="comments" gutter={8}>
-                  <Col span={4}>
-                    <Steps current={current} direction="vertical" onChange={this.onChange}>
-                      {steps.map(item => (
-                        <Step key={item.title} />
-                      ))}
-                    </Steps>
-                  </Col>
-                  <Col span={20}>
-                    <div className="steps-content">{steps[current].content}</div>
+                <Row gutter={32}>
+                  <Col span={16}>
+                    <div align="right">
+                      <Radio.Group onChange={this.onGroupSelection} value={groupName}>
+                        <Radio value="all">All</Radio>
+                        <Radio value="cboe">CBOE</Radio>
+                        <Radio value="nasdaq">NASDAQ</Radio>
+                        <Radio value="nyse">NYSE</Radio>
+                        <Radio value="inverted">Inverted</Radio>
+                        <Radio value="iex">IEX</Radio>
+                        <Radio value="trf">Off-Market</Radio>
+                      </Radio.Group>
+                    </div>
                   </Col>
                 </Row>
-              </div>
+
+                <Row gutter={32}>
+                  <Col span={16}>
+                    <MarketShareByYearExch data={chartData} onResize={this.onResize} />
+                  </Col>
+                  <Col span={8}>
+                    <Row className="comments" gutter={8}>
+                      <Col span={20}>
+                        <div className="comments-content" style={{height: Math.max(400, height - 100)}}>{commentContent}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Fragment>
             );
           }
         }
@@ -693,35 +728,26 @@
         return (
           <Deck transition={["zoom", "slide"]} theme={theme} transitionDuration={500} contentWidth={"90%"} contentHeight={"100%"}>
             <SlideSet style={{ border: '1px solid red' }}>
-            <Slide bgColor="primary">
-              <Heading transition={["slide"]} size={1} caps lineHeight={1} textColor="secondary" margin="0px 0px 50px 0px">
-                Year In Review
-              </Heading>
-              <Heading size={3} caps textColor="tertiary" margin="0px 0px 50px 0px">
-                2019
-              </Heading>
-              <Text textSize="1.5em" margin="0px 0px 50px 0px" bold textColor="black">
-                Presented by
-              </Text>
-              <Text textSize="1.0em" margin="0px 0px 30px 0px" bold textColor="blue">
-                David Han
-              </Text>
-            </Slide>
-
-            <Slide transition={["zoom", "fade"]} bgColor="primary">
-              <Text textSize="1.5em" margin="0px 0px 30px 0px" bold textColor="black">
-                US Equities Market Share
-              </Text>
-              <Row gutter={32}>
-                <Col span={16}>
-                  <MarketShareByYearExchWithData />
-                </Col>
-                <Col span={8}>
-                  <Comments />
-                </Col>
-              </Row>
-            </Slide>
-
+              <Slide bgColor="primary">
+                <Heading transition={["slide"]} size={1} caps lineHeight={1} textColor="secondary" margin="0px 0px 50px 0px">
+                  Year In Review
+                </Heading>
+                <Heading size={3} caps textColor="tertiary" margin="0px 0px 50px 0px">
+                  2019
+                </Heading>
+                <Text textSize="1.5em" margin="0px 0px 50px 0px" bold textColor="black">
+                  Presented by
+                </Text>
+                <Text textSize="1.0em" margin="0px 0px 30px 0px" bold textColor="blue">
+                  David Han
+                </Text>
+              </Slide>
+              <Slide transition={["zoom", "fade"]} bgColor="primary">
+                <Text textSize="1.5em" margin="0px 0px 30px 0px" bold textColor="black">
+                  US Equities Market Share
+                </Text>
+                <MarketShareByYearExchWithData />
+              </Slide>
             </SlideSet>
           </Deck>
         );
