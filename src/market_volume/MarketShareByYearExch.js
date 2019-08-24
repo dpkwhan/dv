@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import echarts from "echarts";
 import numeral from "numeral";
+import isEqual from "lodash/isEqual";
 import macarons from "../components/macarons";
-
-const style = "display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px";
-const colorSpan = color => `<span style="${style};background-color:${color}"></span>`;
 
 class MarketShareByYearExch extends Component {
   createChart(props) {
@@ -19,6 +17,9 @@ class MarketShareByYearExch extends Component {
 
   makeChartOptions(props) {
     const { legendData, xAxisData, series } = props.data;
+    const style = "display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px";
+    const colorSpan = color => `<span style="${style};background-color:${color}"></span>`;
+
     return {
       tooltip: {
         trigger: "axis",
@@ -121,8 +122,10 @@ class MarketShareByYearExch extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.chart.dispose();
-    this.createChart(nextProps);
+    if (!isEqual(nextProps.data, this.props.data)) {
+      this.chart.dispose();
+      this.createChart(nextProps);
+    }
   }
 
   render() {

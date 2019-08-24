@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import autoBind from "react-autobind";
 import { Radio } from "antd";
 import MarketShareByYearExch from "./MarketShareByYearExch";
-import data from "../data/market_share_by_year_exch.json";
+import marketShareByYearExch from "../data/market_share_by_year_exch.json";
 
 const groupBy = {
   cboe: ["CBOE", "CBOE BYX", "CBOE BZX", "CBOE EDGA", "CBOE EDGX"],
@@ -26,14 +26,14 @@ class MarketShareByYearExchWithData extends Component {
     this.state = { group: "all", chartData: this.filterData("all") };
   }
 
-  onGroupSelection = e => {
+  onGroupSelection(e) {
     const group = e.target.value;
     this.setState({ group, chartData: this.filterData(group) });
-  };
+  }
 
-  filterData = group => {
-    const chartData = { xAxisData: data.year, legendData: [], series: [] };
-    Object.keys(data).forEach(key => {
+  filterData(group) {
+    const chartData = { xAxisData: marketShareByYearExch.year, legendData: [], series: [] };
+    Object.keys(marketShareByYearExch).forEach(key => {
       if (key === "year") return;
       const name = key;
       if (isInGroup(name, group)) {
@@ -43,14 +43,14 @@ class MarketShareByYearExchWithData extends Component {
           barMaxWidth: 50,
           stack: "mktShare",
           itemStyle: { normal: { areaStyle: { type: "default" } } },
-          data: data[name],
+          data: marketShareByYearExch[name],
         };
         chartData.legendData.push(name);
         chartData.series.push(dataPoints);
       }
     });
     return chartData;
-  };
+  }
 
   render() {
     const { group, chartData } = this.state;
