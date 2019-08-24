@@ -597,8 +597,9 @@
                       <Icon component={() => <img src="https://new.nasdaq.com/themes/nsdq/dist/assets/images/logo.svg" style={{width: 147, height: 42, marginBottom:20}} />}/>
                       <font size={4}>
                         <ul className="comment-item">
-                          <li></li>
-                          <li></li>
+                          <li>NASDAQ keeps losing market share since 2008 and reaches its lowest at 17.4% in 2016.</li>
+                          <li>NASDAQ starts to gain more market share since 2017, epecially in the traditional NASDAQ market.</li>
+                          <li>NASDAQ Boston, an inverted venue, keeps losing market share. It drops from 3.1% in 2017 to less than 2% in 2019.</li>
                         </ul>
                       </font>
                     </Row>
@@ -613,8 +614,10 @@
                       <Icon component={() => <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/NY_Stock_Exchange_logo.svg" style={{width: 40, height: 40, marginBottom: 20}} />}/>
                       <font size={4}>
                         <ul className="comment-item">
-                          <li></li>
-                          <li></li>
+                          <li>NYSE's market share is very stable in recent years.</li>
+                          <li>NYSE National, an inverted venue, adds 1.2% of market share to NYSE in 2019.</li>
+                          <li>NYSE Arca keeps losing market share in the last 10 years.</li>
+                          <li>NYSE American's market share never exceeds 0.5% in the last 10 years.</li>
                         </ul>
                       </font>
                     </Row>
@@ -759,10 +762,10 @@
             <SlideSet style={{ border: '1px solid red' }}>
               <Slide bgColor="primary">
                 <Heading transition={["slide"]} size={1} caps lineHeight={1} textColor="secondary" margin="0px 0px 50px 0px">
-                  Year In Review
+                  U.S. Equities Market
                 </Heading>
                 <Heading size={3} caps textColor="tertiary" margin="0px 0px 50px 0px">
-                  2019
+                    Year In Review: 2019
                 </Heading>
                 <Text textSize="1.5em" margin="0px 0px 50px 0px" bold textColor="black">
                   Presented by
@@ -773,7 +776,7 @@
               </Slide>
               <Slide transition={["zoom", "fade"]} bgColor="primary">
                 <Text textSize="1.5em" margin="0px 0px 30px 0px" bold textColor="black">
-                  US Equities Market Share
+                  U.S. Equities Market Share
                 </Text>
                 <MarketShareByYearExchWithData />
               </Slide>
