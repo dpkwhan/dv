@@ -28,6 +28,10 @@
         padding-left: 10px;
         height: "50vh";
       }
+
+      .comment-item li {
+        margin: 10px 0px 10px 0px;
+      }
     </style>
   </head>
   <body>
@@ -371,9 +375,8 @@
           },
         };
 
-        const { Button, Row, Col, Radio, Steps, Divider, Input } = antd;
+        const { Button, Row, Col, Radio, Steps, Divider, Icon } = antd;
         const Step = Steps.Step;
-        const TextArea = Input.TextArea;
         const { Component, Fragment } = React;
         const { Heading } = Spectacle;
 
@@ -538,7 +541,7 @@
             super(props, context);
             autoBind(this);
             this.exchangeGroups = this.getExchangeGroups();
-            this.state = { groupName: "cboe", chartData: this.filterData("cboe"), height: 300 };
+            this.state = { groupName: "all", chartData: this.filterData("all"), height: 300 };
           }
 
           isInGroup(exch, groupName) {
@@ -553,11 +556,17 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>Overall Market Share</h2></Divider>
+                      <Icon component={() => <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" style={{width: 75, height: 40, marginBottom: 20, marginRight: 10}} />}/>
+                      <h5>Market Share</h5>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        <ul className="comment-item">
+                          <li>NASDAQ's market share started to pick up over the last four years.</li>
+                          <li>NYSE's market share also observed a moderate increase in the recent three years.</li>
+                          <li>Cboe is losing its market share year by year.</li>
+                          <li>Inverted venues lost its momentum and started to turn down.</li>
+                          <li>IEX momentum is still strong since its debut in 2013.</li>
+                          <li>Off-market trading maintains its position steadily.</li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -568,11 +577,13 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>CBOE</h2></Divider>
+                      <Icon component={() => <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Cboe_Global_Markets_Logo.svg" style={{width: 117.5, height: 40, marginBottom: 20}} />}/>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        Cboe intends to expand its equities business by acquiring BATS in 2017:
+                        <ul className="comment-item">
+                          <li>Cboe's market share has been decreasing since it announced to acquire BATS in September 2016.</li>
+                          <li>Cboe's market share peaked at 22% in 2012, but it dropped to 16.2% in 2019.</li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -583,11 +594,12 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>NASDAQ</h2></Divider>
+                      <Icon component={() => <img src="https://new.nasdaq.com/themes/nsdq/dist/assets/images/logo.svg" style={{width: 147, height: 42, marginBottom:20}} />}/>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        <ul className="comment-item">
+                          <li></li>
+                          <li></li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -598,11 +610,12 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>NYSE</h2></Divider>
+                      <Icon component={() => <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/NY_Stock_Exchange_logo.svg" style={{width: 40, height: 40, marginBottom: 20}} />}/>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        <ul className="comment-item">
+                          <li></li>
+                          <li></li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -613,11 +626,14 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>Inverted Venues</h2></Divider>
+                      <h5>Inverted Venues</h5>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        The inverted venues charge a fee for providing liquidity, but provide a rebate to liquidity takers:
+                        <ul className="comment-item">
+                          <li>The market share of inverted venues has been increasing steadily since 2013 and reaches the peak at 9.8% in 2017.</li>
+                          <li>Inverted venues' market share decreased over the last three years.</li>
+                          <li>NYSE National became an inverted venue on May 20, 2018.</li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -628,11 +644,15 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>IEX</h2></Divider>
+                      <Icon component={() => <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/IEX_Group_Logo.svg" style={{width: 61.5, height: 40, marginBottom: 20}} />}/>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        The Investors Exchange (IEX) the newest exchange in the US equities markets:
+                        <ul className="comment-item">
+                          <li>It became an exchange in September 2016 and it was operated as an ATS before that.</li>
+                          <li>Its market share is abount 1.5% as a dark pool it became an exchange.</li>
+                          <li>Its market share jumped from 1.5% to 2.2% after becoming an exchange.</li>
+                          <li>After that, IEX's market share increased by roughly 10% each year.</li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -643,11 +663,13 @@
                 content: (
                   <div>
                     <Row type="flex" justify="start">
-                      <Divider orientation="left"><h2>Off-Market</h2></Divider>
+                      <Icon component={() => <img src="https://upload.wikimedia.org/wikipedia/en/1/17/Financial_Industry_Regulatory_Authority_logo.svg" style={{width: 150.5, height: 40, marginBottom: 20}} />}/>
                       <font size={4}>
-                        Cboe introduces a closing match process for non-BZX listed
-                        securities. Cboe seeks to match buy and sell MOC orders at the official
-                        primary closing price
+                        The off-market volume is transacted outside of regular stock exchanges and reported to FINRA via TRF (Trade Reporting Facility):
+                        <ul className="comment-item">
+                          <li>The off-market volume includes trades from OTC (Over-The-Counter) and ATS (Alternative Trading System)</li>
+                          <li>It accounts for around 36%-37% over the last five years. Its market share is fairely stable.</li>
+                        </ul>
                       </font>
                     </Row>
                   </div>
@@ -675,6 +697,13 @@
                   itemStyle: { normal: { areaStyle: { type: "default" } } },
                   data: marketShareByYearExch[name],
                 };
+                if (groupName === "inverted" && name === "NYSE National") {
+                  marketShareByYearExch.year.forEach(function(year, i) {
+                    if (year <= 2017) {
+                      dataPoints.data[i] = 0;
+                    }
+                  });
+                }
                 chartData.legendData.push(name);
                 chartData.series.push(dataPoints);
               }
