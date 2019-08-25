@@ -685,9 +685,7 @@
                           <li>NASDAQ's market share started to pick up over the last four years.</li>
                           <li>NYSE's market share also observed a moderate increase in the recent three years.</li>
                           <li>Cboe is losing its market share year by year.</li>
-                          <li>Inverted venues lost its momentum and started to turn down.</li>
                           <li>IEX momentum is still strong since its debut in 2013.</li>
-                          <li>Off-market trading maintains its position steadily.</li>
                         </ul>
                       </font>
                     </Row>
@@ -773,10 +771,10 @@
                       <font size={4}>
                         The Investors Exchange (IEX) the newest exchange in the US equities markets:
                         <ul className="comment-item">
-                          <li>It became an exchange in September 2016 and it was operated as an ATS before that.</li>
-                          <li>Its market share is abount 1.5% as a dark pool it became an exchange.</li>
+                          <li>It became an exchange in September 2016.</li>
+                          <li>Its market share is abount 1.5% before it became an exchange.</li>
                           <li>Its market share jumped from 1.5% to 2.2% after becoming an exchange.</li>
-                          <li>After that, IEX's market share increased by roughly 10% each year.</li>
+                          <li>IEX's market share increased by roughly 10% each year.</li>
                         </ul>
                       </font>
                     </Row>
@@ -810,7 +808,26 @@
 
           filterData(groupName) {
             const chartData = { xAxisData: marketShareByYearExch.year, legendData: [], series: [] };
-            Object.keys(marketShareByYearExch).forEach(key => {
+            let processedData = {};
+            if (groupName === "all") {
+              Object.keys(marketShareByYearExch).forEach(key => {
+                if (key === "year") return;
+                const exchData = marketShareByYearExch[key];
+                const name = key.split(" ")[0];
+                if (processedData.hasOwnProperty(name)) {
+                  exchData.forEach(function(v, i) {
+                    processedData[name][i] += v;
+                  });
+                } else {
+                  // Make sure to clone the array
+                  processedData[name] = exchData.slice(0);
+                }
+              })
+            } else {
+              processedData = marketShareByYearExch;
+            }
+
+            Object.keys(processedData).forEach(key => {
               if (key === "year") return;
               const name = key;
               if (this.isInGroup(name, groupName)) {
@@ -820,7 +837,7 @@
                   barMaxWidth: 50,
                   stack: "mktShare",
                   itemStyle: { normal: { areaStyle: { type: "default" } } },
-                  data: marketShareByYearExch[name],
+                  data: processedData[name],
                 };
                 if (groupName === "inverted" && name === "NYSE National") {
                   marketShareByYearExch.year.forEach(function(year, i) {
@@ -863,13 +880,13 @@
                 </Row>
 
                 <Row gutter={32}>
-                  <Col span={16}>
+                  <Col span={14}>
                     <MarketShareByYearExch data={chartData} onResize={this.onResize} />
                   </Col>
-                  <Col span={8}>
+                  <Col span={10}>
                     <Row className="comments" gutter={8}>
                       <Col span={20}>
-                        <div className="comments-content" style={{height: Math.max(400, height - 100)}}>{commentContent}</div>
+                        <div className="comments-content" style={{height: Math.max(400, height - 50)}}>{commentContent}</div>
                       </Col>
                     </Row>
                   </Col>
@@ -1071,6 +1088,7 @@
             return (
               <div>
                 <Row type="flex" justify="space-around" align="middle">
+                  <Col><Calendar month="October" day={22} dow="1994" style={{ width: 60, height: 60 }} /></Col>
                   <Col><Calendar month="April" day={9} dow="2018" style={{ width: 60, height: 60 }} /></Col>
                 </Row>
 
@@ -1078,7 +1096,7 @@
                   <font size={4}>
                     Under UTP, NYSE-listed stocks can be traded on NASDAQ, but NASDAQ-listed stocks cannot be trade on NYSE.
                     <ul className="comment-item">
-                      <li>NYSE's market share in NASDAQ-listed stocks increase gradually, but has been stagnant around 1.8% for quite a few months.</li>
+                      <li>NYSE's market share in NASDAQ-listed stocks increases gradually, but has been stagnant around 1.8% recently.</li>
                       <li>NASDAQ has been gaining market shares in NYSE-listed stocks since Apr 2018, <i>i.e.</i> increasing from 9.8% to 13.4%.</li>
                     </ul>
                   </font>
@@ -1094,10 +1112,10 @@
             return (
               <Fragment>
                 <Row gutter={32}>
-                  <Col span={16}>
+                  <Col span={14}>
                     <MarketShareByYearTapeAC data={chartData} onResize={this.onResize} />
                   </Col>
-                  <Col span={8}>
+                  <Col span={10}>
                     <Row className="comments" gutter={8}>
                       <Col span={20}>
                         <div className="comments-content" style={{height: Math.max(400, height - 100)}}>{commentContent}</div>
@@ -1120,7 +1138,7 @@
         });
 
         return (
-          <Deck transition={["zoom", "slide"]} theme={theme} transitionDuration={500} contentWidth={"90%"} contentHeight={"100%"}>
+          <Deck transition={["zoom", "slide"]} theme={theme} transitionDuration={500} contentWidth={"95%"} contentHeight={"100%"}>
             <SlideSet style={{ border: '1px solid red' }}>
               <Slide bgColor="primary">
                 <Heading transition={["slide"]} size={1} caps lineHeight={1} textColor="secondary" margin="0px 0px 50px 0px">
