@@ -1,6 +1,10 @@
-getWeek:{[date]
- `date$2+7*`int$(date-4)%7
- };
+formatD2Y:{`year$x};
+formatD2H:{`$(string `year$x),'("H1";"H2") 6<`mm$x};
+formatD2h:{(1 2) 6<`mm$x};
+formatD2Q:{`$(string `year$x),'"Q",'string 1+floor((`mm$x)-1)%3};
+formatD2q:{1+floor((`mm$x)-1)%3};
+formatD2M:{`month$x};
+formatD2W:{`date$2+7*`int$(x-4)%7};
 
 dataDir:(getenv `DAILY_VOLUME_DATA_DIR);
 
@@ -27,7 +31,7 @@ cboeDaily:update sym:`$"NASDAQ BX" from cboeDaily where sym in (`$"BEX (B)";`$"N
 cboeDaily:update sym:`$"NASDAQ PSX" from cboeDaily where sym in (`$"PSX (X)";`$"NASDAQ PSX (X)";`$"NASDAQ PSX (X)";`$"PHLX (X)");
 cboeDaily:update sym:`$"IEX" from cboeDaily where sym=`$"IEX (V)";
 cboeDaily:update sym:`$"TRF" from cboeDaily where sym in trfs;cboeDaily:`date`sym xasc cboeDaily;
-cboeDaily:update month:`month$date,week:getWeek date from cboeDaily;
+cboeDaily:update year:formatD2Y date,halfyear:formatD2H date,h:formatD2h date,quarter:formatD2Q date,q:formatD2q date,month:formatD2M date,week:formatD2W date from cboeDaily;
 
 system "cd ","C:/Users/david/workspace/git/dv/src/data";
 
@@ -61,8 +65,6 @@ default:exch!(count exch)#0;
 mktShareByYearExch:0!exec (default,sym!mktShare) by year:year from marketShareByExch;
 `:market_share_by_year_exch.json 0: enlist .j.j flip mktShareByYearExch;
 
-
-
 nyseCLiveDate:2018.04.09;
 byMonthExch:select sum tapeCShares by month,sym from cboeDaily where date>=nyseCLiveDate,sym=`$"NYSE";
 byMonth:select tapeCTotalShares:sum tapeCShares by month from cboeDaily where date>=nyseCLiveDate;
@@ -73,4 +75,28 @@ byMonth:select tapeATotalShares:sum tapeAShares by month from cboeDaily where da
 nasdaqMarketShareTapeA:select month,nasdaqMarketShareInTapeA:tapeAShares%tapeATotalShares from byMonthExch lj byMonth;
 marketShareTapeAC:nyseMarketShareTapeC lj `month xkey nasdaqMarketShareTapeA;
 `:market_share_by_year_ac.json 0: enlist .j.j flip marketShareTapeAC;
+
+
+firstYear:2010;
+volChgY:0!select sum totalShares by year from cboeDaily;
+volChgY:select year,totalShares,changePct:(totalShares-prev totalShares)%prev totalShares from volChgY;
+volChgY:select from volChgY where year>=firstYear;
+
+volChgH:0!select sum totalShares by year,halfyear,h from cboeDaily;
+volChgH1:select year,halfyear,totalShares,changePctLp:(totalShares-prev totalShares)%prev totalShares from `year`h xasc volChgH;
+volChgH1:`halfyear xasc select halfyear,totalShares,changePctLp from volChgH1 where year>=firstYear;
+volChgH2:ungroup select year,halfyear,changePctSply:(totalShares-prev totalShares)%prev totalShares by h from `h`year xasc volChgH;
+volChgH2:`halfyear xasc select halfyear,changePctSply from volChgH2 where year>=firstYear;
+volChgH:volChgH1,'volChgH2;
+
+volChgQ:0!select sum totalShares by year,quarter,q from cboeDaily;
+volChgQ1:select year,quarter,totalShares,changePctLp:(totalShares-prev totalShares)%prev totalShares from `year`q xasc volChgQ;
+volChgQ1:`quarter xasc select quarter,totalShares,changePctLp from volChgQ1 where year>=firstYear;
+volChgQ2:ungroup select year,quarter,changePctSply:(totalShares-prev totalShares)%prev totalShares by q from `q`year xasc volChgQ;
+volChgQ2:`quarter xasc select quarter,changePctSply from volChgQ2 where year>=firstYear;
+volChgQ:volChgQ1,'volChgQ2;
+
+`:market_volume_change.json 0: enlist .j.j `y`h`q!(flip volChgY;flip volChgH;flip volChgQ);
+
+
 
