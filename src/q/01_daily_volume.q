@@ -81,6 +81,7 @@ firstYear:2010;
 volChgY:0!select sum totalShares by year from cboeDaily;
 volChgY:select year,totalShares,changePct:(totalShares-prev totalShares)%prev totalShares from volChgY;
 volChgY:select from volChgY where year>=firstYear;
+volChgY:`period xcol volChgY;
 
 volChgH:0!select sum totalShares by year,halfyear,h from cboeDaily;
 volChgH1:select year,halfyear,totalShares,changePctLp:(totalShares-prev totalShares)%prev totalShares from `year`h xasc volChgH;
@@ -88,6 +89,7 @@ volChgH1:`halfyear xasc select halfyear,totalShares,changePctLp from volChgH1 wh
 volChgH2:ungroup select year,halfyear,changePctSply:(totalShares-prev totalShares)%prev totalShares by h from `h`year xasc volChgH;
 volChgH2:`halfyear xasc select halfyear,changePctSply from volChgH2 where year>=firstYear;
 volChgH:volChgH1,'volChgH2;
+volChgH:`period xcol volChgH;
 
 volChgQ:0!select sum totalShares by year,quarter,q from cboeDaily;
 volChgQ1:select year,quarter,totalShares,changePctLp:(totalShares-prev totalShares)%prev totalShares from `year`q xasc volChgQ;
@@ -95,6 +97,7 @@ volChgQ1:`quarter xasc select quarter,totalShares,changePctLp from volChgQ1 wher
 volChgQ2:ungroup select year,quarter,changePctSply:(totalShares-prev totalShares)%prev totalShares by q from `q`year xasc volChgQ;
 volChgQ2:`quarter xasc select quarter,changePctSply from volChgQ2 where year>=firstYear;
 volChgQ:volChgQ1,'volChgQ2;
+volChgQ:`period xcol volChgQ;
 
 `:market_volume_change.json 0: enlist .j.j `y`h`q!(flip volChgY;flip volChgH;flip volChgQ);
 
