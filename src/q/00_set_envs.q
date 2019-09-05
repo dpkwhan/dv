@@ -3,5 +3,5 @@ baseDir:getenv `BASE_DATA_DIR;
 
 `NASDAQ_CROSSES_DATA_DIR setenv baseDir,"nasdaq/crosses/csv/";
 `DAILY_VOLUME_DATA_DIR setenv baseDir,"cboe/daily_volume/";
-`RINRA_ATS_DATA_DIR setenv baseDir,"finra/";
+`FINRA_WEEKLY_DATA_DIR setenv baseDir,"finra/weekly";
 
