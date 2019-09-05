@@ -1,11 +1,3 @@
-formatD2Y:{`year$x};
-formatD2H:{`$(string `year$x),'("H1";"H2") 6<`mm$x};
-formatD2h:{(1 2) 6<`mm$x};
-formatD2Q:{`$(string `year$x),'"Q",'string 1+floor((`mm$x)-1)%3};
-formatD2q:{1+floor((`mm$x)-1)%3};
-formatD2M:{`month$x};
-formatD2W:{`date$2+7*`int$(x-4)%7};
-
 dataDir:(getenv `DAILY_VOLUME_DATA_DIR);
 
 system "cd ",dataDir;
@@ -47,14 +39,14 @@ marketShareByTape:select year,mktShareA:100*tapeAShares%totalShares,mktShareB:10
 `:market_share_by_tape.json 0: enlist .j.j flip marketShareByTape;
 
 nyseCLiveDate:2018.04.09;
-byWeekExch:select sum tapeCShares by week:getWeek date,sym from cboeDaily where date>=nyseCLiveDate,sym=`$"NYSE";
-byWeek:select tapeCTotalShares:sum tapeCShares by week:getWeek date from cboeDaily where date>=nyseCLiveDate;
+byWeekExch:select sum tapeCShares by week:formatD2W date,sym from cboeDaily where date>=nyseCLiveDate,sym=`$"NYSE";
+byWeek:select tapeCTotalShares:sum tapeCShares by week:formatD2W date from cboeDaily where date>=nyseCLiveDate;
 nyseMarketShareTapeC:select string week,mktShare:tapeCShares%tapeCTotalShares from byWeekExch lj byWeek;
 `:market_share_nyse_c.json 0: enlist .j.j nyseMarketShareTapeC;
 
 nyseNationalLiveDate:2018.05.21;
-nyseNationalByWeek:0!select shares:sum totalShares by week:getWeek date from cboeDaily where date>=nyseNationalLiveDate,sym=`$"NYSE National";
-byWeek:select sum totalShares by week:getWeek date from cboeDaily where date>=nyseNationalLiveDate;
+nyseNationalByWeek:0!select shares:sum totalShares by week:formatD2W date from cboeDaily where date>=nyseNationalLiveDate,sym=`$"NYSE National";
+byWeek:select sum totalShares by week:formatD2W date from cboeDaily where date>=nyseNationalLiveDate;
 nyseNationalMktShares:select string week,mktShare:shares%totalShares from nyseNationalByWeek lj byWeek;
 `:market_share_nyse_national.json 0: enlist .j.j select from nyseNationalMktShares;
 

@@ -1,21 +1,10 @@
-readData:{
-    data:("SSSSSJJD"; enlist "|") 0:-1_read0 x;
-    bits:"." vs string x;
-    week:"D"$bits 1;
-    data:select week:week,tier:Report_Type,mpid:ATS_MPID,execQty:Shares,execCount:Trades from data;
-    data:update tier:`T1 from data where tier=`$"NMS Tier 1";
-    data:update tier:`T2 from data where tier=`$"NMS Tier 2";
-    :data;
-  };
-
-formatD2Q:{`$(string `year$x),'"Q",'string 1+floor((`mm$x)-1)%3};
 
 dataDir:(getenv `FINRA_WEEKLY_DATA_DIR);
 system "cd ",dataDir;
 files:key hsym `$dataDir;
 
 atsTxtFiles:files where files like "ats.*.txt";
-atsDataBefore2017:raze readData each atsTxtFiles;
+atsDataBefore2017:raze readAtsData each atsTxtFiles;
 atsDataBefore2017:0!select sum execQty,sum execCount by week,tier,mpid from atsDataBefore2017;
 
 atsCsvFiles:files where files like "ats.weekly*.csv";
