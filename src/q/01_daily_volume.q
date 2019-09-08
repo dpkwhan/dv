@@ -94,4 +94,27 @@ volChgQ:`period xcol volChgQ;
 `:market_volume_change.json 0: enlist .j.j `y`h`q!(flip volChgY;flip volChgH;flip volChgQ);
 
 
+byDateExch:0!select shares:sum tapeAShares+tapeBShares+tapeCShares by `month$date,sym from cboeDaily;
+byDate:select totalShares:sum tapeAShares+tapeBShares+tapeCShares by `month$date from cboeDaily;
+marketShareByDateExch:byDateExch lj byDate;
+select date,mktShare:shares%totalShares from marketShareByDateExch where sym=`$"NYSE Chicago",date>=2018.01m;
+
+calculateChicagoMarketShare:{
+    sd:2010.01.01;
+    ed:2019.12.31;
+    chx:exec totalShares from 
+      select sum totalShares 
+      from cboeDaily 
+      where sym=`$"NYSE Chicago"
+        ,date within (sd;ed);
+    tot:exec totalShares from 
+      select sum totalShares 
+      from cboeDaily 
+      where date within (sd;ed);
+    chxShares:chx 0;
+    totShares:tot 0;
+    chxShares%totShares
+  };
+calculateChicagoMarketShare[]
+
 
