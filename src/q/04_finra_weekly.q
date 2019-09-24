@@ -25,9 +25,9 @@ filterByTier:{[tid]
     atsStatsByPeriod:select totalQty:sum execQty by week,tier from atsStats;
     atsStatsByMpid:update atsMarketShare:execQty%totalQty from atsStats lj atsStatsByPeriod;
     topVenues:exec mpid from 10#`atsMarketShare xdesc select mpid,atsMarketShare from atsStatsByMpid where week=max week;
-    atsStatsByMpid:update mpid:`Others from atsStatsByMpid where not mpid in topVenues;
+    atsStatsByMpid:delete from atsStatsByMpid where not mpid in topVenues;
     atsStatsByMpid:0!select sum execQty,sum atsMarketShare,last totalQty by tier,week,mpid from atsStatsByMpid;
-    mpids:topVenues,`Others;
+    mpids:topVenues;
     default:mpids!(count mpids)#0;
     atsMarketShare:0!exec (default,mpid!atsMarketShare) by week,tier from atsStatsByMpid where mpid in mpids;
     delete tier from atsMarketShare
