@@ -4,6 +4,7 @@ baseDir:getenv `BASE_DATA_DIR;
 `NASDAQ_CROSSES_DATA_DIR setenv baseDir,"nasdaq/crosses/csv/";
 `DAILY_VOLUME_DATA_DIR setenv baseDir,"cboe/daily_volume/";
 `FINRA_WEEKLY_DATA_DIR setenv baseDir,"finra/weekly";
+`MIDAS_DATA_DIR setenv baseDir,"midas";
 
 formatD2Y:{`year$x};
 formatD2H:{`$(string `year$x),'("H1";"H2") 6<`mm$x};
