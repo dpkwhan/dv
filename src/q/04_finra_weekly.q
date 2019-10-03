@@ -57,11 +57,11 @@ system "cd ","C:/Users/david/workspace/git/dv/src/data";
 
 
 // non-ATS
-
 mpidNsccFiles:files where files like "mpidlist.nscc*.txt";
 mpidsNSCC:raze 0:[("SSS"; enlist "|")] each mpidNsccFiles;
 mpidsNSCC:distinct select mpid,name from mpidsNSCC;
 
+// ftp://ftp.nasdaqtrader.com/symboldirectory/
 mpidFiles:files where files like "mpidlist_2*.txt";
 mpids:raze 0:[("SSSSSSSSS"; enlist "|")] each mpidFiles;
 mpids:`mpid`mpType`name xcol mpids;
@@ -105,3 +105,45 @@ nonatsData:update mpid:`CLVU from nonatsData where name like "CLEARVIEW *";
 nonatsData:update mpid:`ESPO from nonatsData where name like "ESPOSITO *";
 nonatsData:update mpid:`DADA from nonatsData where name like "D.A. DAVIDSON*";
 nonatsData:update mpid:`THBT from nonatsData where name like "THREE BROTHERS*";
+nonatsData:update mpid:`JNST from nonatsData where mpid in `JNST`JSAP`JSCA`JSCT`JSEB`JSES`JSJX`JSML`JANE`JANS`JSOL`JSPT`NASJ;
+nonatsData:update mpid:`BOFA from nonatsData where mpid in `BCEP`BCEX`BOFA`MLBC`MLCO`MLCX`MLEX`MLIX`MLRM`MLSE`MLTC`MLTJ`MLTL`MLTV`MLUA`MLUD`MLVX`MLZA`MLZC`MLZD`MLZE`MLZF`MLZG`MLZH`MLZI`MLZJ`MLZK`MLZL`MLZM`MLZN`MLZO`MLZP`MLZQ`MLZR`NBII`PXCK`WVBD`MLTQ`MLZB;
+nonatsData:update mpid:`CDEL from nonatsData where mpid in `APOG`CATS`CDEL`CDGO`CDLC`CDRG`CEDL`CEMM`CITG`CSEC`CSIN`CTDL`CTDN`ICRD`IELP`IEQY`PRDG`CCMX`CDED;
+nonatsData:update mpid:`GSCS from nonatsData where mpid in `BZWV`BZYD`BZYF`BZYJ`GCMI`GSAA`GSCO`GSCS`GSDA`GSFF`GSGS`GSLT`GSLZ`GSMM`GSQQ`GSRR`GSUU`GSVV`GSWW`GSXX`GSYY`SGAL`SGCL`SGCM`SGMA`SGMT`SILK`SLBT`SLCN`SLKI;
+nonatsData:update mpid:`VIRT from nonatsData where mpid in `DTTX`EWTT`EWTV`GFLO`KCGB`KCGC`KCGM`NITC`NITE`VALR`VALX`VCMM`VFCM`VIRT`VNMS`VRTU`EMCC`KCMP`KELG`KELL`NICK`NITD`NITP`NITX`TRIM`TRMZ`VALD;
+nonatsData:update mpid:`ETMM from nonatsData where mpid in `ETRF`ETMM;
+nonatsData:update mpid:`MRGN from nonatsData where mpid in `DEAN`MRGN`MSCO`MSEB`MSED`MSEM`MSET`MSLP`MSML`MSMP`MSNY`MSPD`MSPL`MSPW`MSRP`MSTX`MSTW;
+nonatsData:update mpid:`CITI from nonatsData where mpid in `AUTO`CBLC`CCAT`CDMI`CGMI`CGWM`CIOI`CITI`FLOW`GATE`GOTO`LQFI`SBSH`CGQT`CXCX;
+nonatsData:update mpid:`TSSM from nonatsData where mpid in `OHOS`SOHO`TSSM;
+nonatsData:update mpid:`UBSS from nonatsData where mpid in `BUNT`PWJC`PWJX`SCHB`UBSA`UBSB`UBSC`UBSG`UBSK`UBSS`UBST`UBSW`UBSX`PTFI`UBII;
+nonatsData:update mpid:`WSEA from nonatsData where mpid in `WEXA`WEXC`WEXM`WEXQ`WEXX`WOLV`WSEA`WTLP;
+nonatsData:update mpid:`JPMS from nonatsData where mpid in `BEST`BSSC`CHMS`CHSI`CISI`JPBX`JPMA`JPME`JPMG`JPMP`JPMS`JPMT`JPMX`PCSD`BEAR;
+
+// ats vs non-ats
+nonatsStats:select nonatsQty:sum execQty,nonatsCount:sum execCount by tier,week from nonatsData;
+atsStats:0!select atsQty:sum execQty,atsCount:sum execCount by tier,week from atsData where week>=2017.01.01;
+stats:atsStats lj nonatsStats;
+stats:update atsPct:atsQty%atsQty+nonatsQty from stats;
+statsT1:select week,atsPct from stats where tier=`T1;
+statsT2:select week,atsPct from stats where tier=`T2;
+system "cd ","C:/Users/david/workspace/git/dv/src/data";
+`:ats_market_share_in_off_market.json 0: enlist .j.j `t1`t2!(flip statsT1;flip statsT2);
+
+
+// non-ats market share among all non-ats
+filterNonatsByTier:{[tid] 
+    nonatsStats:0!select sum execQty by week,tier,mpid from nonatsData where tier=tid;
+    nonatsStatsByPeriod:select totalQty:sum execQty by week,tier from nonatsStats;
+    nonatsStatsByMpid:update mktShare:execQty%totalQty from nonatsStats lj nonatsStatsByPeriod;
+    topVenues:exec mpid from 10#`mktShare xdesc select mpid,mktShare from nonatsStatsByMpid where week=max week,mpid<>`DEMF;
+    nonatsStatsByMpid:delete from nonatsStatsByMpid where not mpid in topVenues;
+    nonatsStatsByMpid:0!select sum execQty,sum mktShare,last totalQty by tier,week,mpid from nonatsStatsByMpid;
+    mpids:topVenues;
+    default:mpids!(count mpids)#0;
+    mktShare:0!exec (default,mpid!mktShare) by week,tier from nonatsStatsByMpid where mpid in mpids;
+    delete tier from mktShare
+  };
+nonatsMktShareT1:filterNonatsByTier[`T1];
+nonatsMktShareT2:filterNonatsByTier[`T2];
+system "cd ","C:/Users/david/workspace/git/dv/src/data";
+`:nonats_market_share.json 0: enlist .j.j `t1`t2!(flip nonatsMktShareT1;flip nonatsMktShareT2);
+
